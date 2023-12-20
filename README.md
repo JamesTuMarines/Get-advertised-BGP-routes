@@ -1,3 +1,11 @@
+Before you use
+---
+The goal for this code is to get the information I need.
+Not consider any optimization and efficiency.
+Feel free to optimize it.
+
+Purpose
+---
 Get BGP advertised routes from Juniper MX and IOS-XR and push them to the remote InfluxDB.
 To easily compare routes from different PoPs all around the world and know which provider should be the main entrance point for the traffic.
 
