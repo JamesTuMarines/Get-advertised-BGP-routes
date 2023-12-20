@@ -36,3 +36,8 @@ pip3 install influxdb
 ~~~
 python3 push_influx.py
 ~~~
+
+You can use Grafana to present the data
+---
+![image](https://github.com/JamesTuMarines/Get-advertised-BGP-routes/assets/90703900/11fc00f5-0843-4063-a913-3182e92955e0)
+
