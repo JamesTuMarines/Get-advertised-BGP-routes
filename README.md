@@ -28,8 +28,11 @@ username = 'agent'
 password = '@g1nt'
 database = 'advertisement'
 ~~~
-5. Execute the python code
+5. Install the packages
 ~~~
 pip3 install influxdb
+~~~
+6. Execute the Python code
+~~~
 python3 push_influx.py
 ~~~
