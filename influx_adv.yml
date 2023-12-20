@@ -1,0 +1,65 @@
+---
+
+## Playbook to configure things
+
+- hosts: localhost
+  vars:
+    directory:
+      - "./adv_juniper"
+      - "./adv_xr"
+
+  tasks:
+
+    - name: Delete directory
+      ansible.builtin.file:
+        state: absent
+        path: "{{ item }}"
+      loop: "{{ directory }}"
+      run_once: true
+
+    - name: Create directory
+      ansible.builtin.file:
+        state: directory
+        path: "{{ item }}"
+      loop: "{{ directory }}"
+      run_once: true
+
+- hosts: juniper
+
+  tasks:
+    - name: Juniper BGP advertised routes
+      junipernetworks.junos.junos_command:
+        commands:
+          - show route advertising-protocol bgp {{ item.value.ip }} table {{ item.value.table }}
+        display: json
+      with_dict: "{{ peers }}"
+      register: adv_juniper
+
+    - name: Save to the adv dirctory
+      copy:
+        content: "{{ item.stdout[0] }}"
+        dest: "./adv_json/{{ item.item.value.name }}"
+      loop: "{{ adv_juniper.results }}"
+      when: item.skipped is not defined and not os == "linux"
+      delegate_to: localhost
+      #no_log: true
+
+- hosts: xr
+
+  tasks:
+
+    - name: XR BGP advertised routes
+      cisco.iosxr.iosxr_command:
+        commands:
+        - show bgp neighbor {{ item.value.ip }} advertised-routes
+      with_dict: "{{ peers }}"
+      register: adv_xr
+
+    - name: Save to the adv dirctory
+      copy:
+        content: "{{ item.stdout[0] }}"
+        dest: "./adv_xr/{{ item.item.value.name }}"
+      loop: "{{ adv_xr.results }}"
+      when: item.skipped is not defined and not os == "linux"
+      delegate_to: localhost
+      #no_log: true

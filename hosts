@@ -1,0 +1,6 @@
+[xr]
+lab-A9K ansible_host=10.66.4.223
+
+[juniper]
+lab-mx5 ansible_host=10.66.4.222
+

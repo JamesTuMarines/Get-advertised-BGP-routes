@@ -1,0 +1,4 @@
+Network            Next Hop        From            AS Path
+192.168.100.0/24    192.168.2.100   Local           100i
+
+Processed 1 prefixes, 1 paths
